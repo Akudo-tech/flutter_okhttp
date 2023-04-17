@@ -3,6 +3,7 @@ package com.example.flutter_okhttp
 import okhttp3.*
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
+import java.net.UnknownHostException
 
 class FlutterOkHttpClient {
 
@@ -21,8 +22,11 @@ class FlutterOkHttpClient {
         client.newCall(finalreq).enqueue(
                 object : Callback{
                     override fun onFailure(call: Call, e: IOException) {
-                        result.error("IO-ERROR","Message: ${e.message}\nCause: ${e.cause}","Message: ${e.message}\nCause: ${e.cause}\nTrace: ${e.stackTrace}")
-                    }
+                        if(e is UnknownHostException){
+                            result.error("IO-NETWORK","Message: ${e.message}\nCause: ${e.cause}", "Message: ${e.message}\nCause: ${e.cause}\nTrace: ${e.stackTrace}" )
+                        }else {
+                            result.error("IO-ERROR", "Message: ${e.message}\nCause: ${e.cause}", "Message: ${e.message}\nCause: ${e.cause}\nTrace: ${e.stackTrace}")
+                        }                    }
 
                     override fun onResponse(call: Call, response: Response) {
                         var body = response.body?.bytes()
