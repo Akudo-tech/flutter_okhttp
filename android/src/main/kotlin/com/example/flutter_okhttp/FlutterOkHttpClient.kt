@@ -6,6 +6,7 @@ import okhttp3.*
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 import java.net.UnknownHostException
+import java.util.concurrent.TimeUnit
 
 
 class FlutterOkHttpClient(val context:Context, val cacheSize:Long ) {
@@ -20,7 +21,11 @@ class FlutterOkHttpClient(val context:Context, val cacheSize:Long ) {
                 .build()
     }
 
-    private val client = OkHttpClient.Builder().cache(
+    private val client = OkHttpClient.Builder()
+            .connectionPool(
+                    ConnectionPool(10,10,TimeUnit.MINUTES)
+            )
+            .cache(
             Cache(context.cacheDir, cacheSize))
             .addNetworkInterceptor(
                    REWRITE_CACHE_CONTROL_INTERCEPTOR
