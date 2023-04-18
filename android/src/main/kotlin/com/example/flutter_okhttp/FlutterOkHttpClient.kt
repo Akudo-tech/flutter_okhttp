@@ -14,11 +14,6 @@ class FlutterOkHttpClient(val context:Context, val cacheSize:Long ) {
     private val REWRITE_CACHE_CONTROL_INTERCEPTOR = Interceptor { chain ->
 
         val originalResponse = chain.proceed(chain.request())
-        Log.d("flutterokhttp/cache", "url ${originalResponse.request.url} code: ${originalResponse.code} headers sent: ${originalResponse.request.headers}")
-
-        Log.d("flutterokhttp/cache","cache control changing")
-//
-        Log.d("flutterokhttp/cache","response code ${originalResponse.code}")
 
         originalResponse.newBuilder()
                 .header("Cache-Control", "no-cache")
