@@ -7,11 +7,11 @@ import java.io.IOException
 import java.net.UnknownHostException
 
 
-class FlutterOkHttpClient(val context:Context) {
-    private val CACHE_SIZE_BYTES = 1024 * 1024 * 2
+class FlutterOkHttpClient(val context:Context, val cacheSize:Long ) {
+
 
     private val client = OkHttpClient.Builder().cache(
-            Cache(context.cacheDir, CACHE_SIZE_BYTES.toLong()))
+            Cache(context.cacheDir, cacheSize))
             .build()
 
 

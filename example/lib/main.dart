@@ -64,8 +64,8 @@ class _MyAppState extends State<MyApp> {
             ElevatedButton(
               onPressed: () async {
                 try {
-                  var res =
-                      await client.get(Uri.parse("https://www.google.com"));
+                  var res = await client.get(Uri.parse(
+                      "https://api.stage.akudo.co.in/v1/config/admin/all"));
                   print(res.body);
                 } catch (e) {
                   print(e);
