@@ -1,13 +1,19 @@
 package com.example.flutter_okhttp
 
+import android.content.Context
 import okhttp3.*
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 import java.net.UnknownHostException
 
-class FlutterOkHttpClient {
 
-    private val client = OkHttpClient()
+class FlutterOkHttpClient(val context:Context) {
+    private val CACHE_SIZE_BYTES = 1024 * 1024 * 2
+
+    private val client = OkHttpClient.Builder().cache(
+            Cache(context.cacheDir, CACHE_SIZE_BYTES.toLong()))
+            .build()
+
 
     public fun makeRequest(url: String, method: String, body: ByteArray?,
                            headers: Map<String,String>,
