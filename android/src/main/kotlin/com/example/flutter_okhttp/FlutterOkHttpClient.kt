@@ -12,9 +12,14 @@ class FlutterOkHttpClient(val context:Context, val cacheSize:Long ) {
 
     /** Dangerous interceptor that rewrites the server's cache-control header.  */
     private val REWRITE_CACHE_CONTROL_INTERCEPTOR = Interceptor { chain ->
+
         val originalResponse = chain.proceed(chain.request())
+//        Log.d("flutterokhttp/cache","cache control changing")
+//
+//        Log.d("flutterokhttp/cache","response code ${originalResponse.code}")
+
         originalResponse.newBuilder()
-                .header("Cache-Control", "max-age=3600")
+                .header("Cache-Control", "no-cache")
                 .build()
     }
 
@@ -25,13 +30,13 @@ class FlutterOkHttpClient(val context:Context, val cacheSize:Long ) {
             )
             .eventListener(object : EventListener() {
                 override fun cacheHit(call: Call, response: Response) {
-                    Log.d("flutterokhttp/cache","cache pass")
+//                    Log.d("flutterokhttp/cache","cache pass")
 
                     super.cacheHit(call, response)
                 }
 
                 override fun cacheMiss(call: Call) {
-                    Log.d("flutterokhttp/cache","cache missed")
+//                    Log.d("flutterokhttp/cache","cache missed")
 
                     super.cacheMiss(call)
                 }
