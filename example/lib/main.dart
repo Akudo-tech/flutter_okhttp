@@ -64,8 +64,10 @@ class _MyAppState extends State<MyApp> {
             ElevatedButton(
               onPressed: () async {
                 try {
+                  var st = DateTime.now().millisecondsSinceEpoch;
                   var res = await client.get(Uri.parse(
                       "https://api.stage.akudo.co.in/v1/config/admin/all"));
+                  var et = DateTime.now().millisecondsSinceEpoch - st;
                   print(res.body);
                 } catch (e) {
                   print(e);
