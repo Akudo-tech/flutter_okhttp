@@ -25,6 +25,9 @@ class FlutterOkHttpClient(val context:Context, val cacheSize:Long ) {
             .connectionPool(
                     ConnectionPool(10,10,TimeUnit.MINUTES)
             )
+        .connectTimeout(1,TimeUnit.MINUTES)
+        .readTimeout(5,TimeUnit.MINUTES)
+        .writeTimeout(5,TimeUnit.MINUTES)
             .cache(
             Cache(context.cacheDir, cacheSize))
             .addNetworkInterceptor(
