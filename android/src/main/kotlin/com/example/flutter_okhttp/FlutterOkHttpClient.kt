@@ -1,17 +1,52 @@
 package com.example.flutter_okhttp
 
 import android.content.Context
+import android.util.Log
 import okhttp3.*
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 import java.net.UnknownHostException
+import java.util.concurrent.TimeUnit
 
 
 class FlutterOkHttpClient(val context:Context, val cacheSize:Long ) {
 
+//    /** Dangerous interceptor that rewrites the server's cache-control header.  */
+//    private val REWRITE_CACHE_CONTROL_INTERCEPTOR = Interceptor { chain ->
+//
+//        val originalResponse = chain.proceed(chain.request())
+//
+//        originalResponse.newBuilder()
+//                .header("Cache-Control", "no-cache")
+//                .build()
+//    }
 
-    private val client = OkHttpClient.Builder().cache(
+    private val client = OkHttpClient.Builder()
+            .connectionPool(
+                    ConnectionPool(10,10,TimeUnit.MINUTES)
+            )
+        .connectTimeout(1,TimeUnit.MINUTES)
+        .readTimeout(5,TimeUnit.MINUTES)
+        .writeTimeout(5,TimeUnit.MINUTES)
+            .cache(
             Cache(context.cacheDir, cacheSize))
+//            .addNetworkInterceptor(
+//                   REWRITE_CACHE_CONTROL_INTERCEPTOR
+//            )
+            .eventListener(object : EventListener() {
+                override fun cacheHit(call: Call, response: Response) {
+//                    Log.d("flutterokhttp/cache","cache pass")
+
+                    super.cacheHit(call, response)
+                }
+
+                override fun cacheMiss(call: Call) {
+//                    Log.d("flutterokhttp/cache","cache missed")
+
+                    super.cacheMiss(call)
+                }
+
+            })
             .build()
 
 
