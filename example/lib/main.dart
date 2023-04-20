@@ -73,7 +73,7 @@ class _MyAppState extends State<MyApp> {
                   print(e);
                 }
               },
-              child: Text("Call"),
+              child: const Text("Call"),
             )
           ],
         ),

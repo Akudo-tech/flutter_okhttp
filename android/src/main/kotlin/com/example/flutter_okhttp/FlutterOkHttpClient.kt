@@ -11,15 +11,15 @@ import java.util.concurrent.TimeUnit
 
 class FlutterOkHttpClient(val context:Context, val cacheSize:Long ) {
 
-    /** Dangerous interceptor that rewrites the server's cache-control header.  */
-    private val REWRITE_CACHE_CONTROL_INTERCEPTOR = Interceptor { chain ->
-
-        val originalResponse = chain.proceed(chain.request())
-
-        originalResponse.newBuilder()
-                .header("Cache-Control", "no-cache")
-                .build()
-    }
+//    /** Dangerous interceptor that rewrites the server's cache-control header.  */
+//    private val REWRITE_CACHE_CONTROL_INTERCEPTOR = Interceptor { chain ->
+//
+//        val originalResponse = chain.proceed(chain.request())
+//
+//        originalResponse.newBuilder()
+//                .header("Cache-Control", "no-cache")
+//                .build()
+//    }
 
     private val client = OkHttpClient.Builder()
             .connectionPool(
@@ -30,9 +30,9 @@ class FlutterOkHttpClient(val context:Context, val cacheSize:Long ) {
         .writeTimeout(5,TimeUnit.MINUTES)
             .cache(
             Cache(context.cacheDir, cacheSize))
-            .addNetworkInterceptor(
-                   REWRITE_CACHE_CONTROL_INTERCEPTOR
-            )
+//            .addNetworkInterceptor(
+//                   REWRITE_CACHE_CONTROL_INTERCEPTOR
+//            )
             .eventListener(object : EventListener() {
                 override fun cacheHit(call: Call, response: Response) {
 //                    Log.d("flutterokhttp/cache","cache pass")
